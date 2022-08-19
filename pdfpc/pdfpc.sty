@@ -38,6 +38,7 @@
 \RequirePackage{xstring}
 \RequirePackage{iftex}
 \RequirePackage{hyperxmp}
+\RequirePackage[unicode]{hyperref}
 \ifLuaTeX
   \RequirePackage{stringenc}
   \RequirePackage{pdftexcmds}
@@ -187,10 +188,15 @@ ______</rdf:Description>^^J%
     \else%
       \newcommand{\pdfpcnote}[1]{%
         {%
-          \edef\\{\string\n}%
+          \expandafter\def\expandafter\pdfstringdefPreHook
+          \expandafter{%
+            \pdfstringdefPreHook
+            \edef\\{\unichar{"000A}}%
+          }
+          \pdfstringdef{\tmp@a}{#1}
           \pdfannot width 0pt height 0pt depth 0pt {%
              /Subtype /Text%
-             /Contents (#1)%
+             /Contents (\tmp@a)%
              /F 6%
           }%
         }%
