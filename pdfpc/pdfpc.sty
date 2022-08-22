@@ -38,10 +38,18 @@
 \RequirePackage{xstring}
 \RequirePackage{iftex}
 \RequirePackage{hyperxmp}
-\RequirePackage[unicode]{hyperref}
 \ifLuaTeX
   \RequirePackage{stringenc}
   \RequirePackage{pdftexcmds}
+\else
+  \ifXeTeX
+  \else
+    \RequirePackage{hyperref}
+    \ifHy@unicode
+    \else
+      \HyPsd@LoadUnicode
+    \fi
+  \fi
 \fi
 %
 \SetupKeyvalOptions{
@@ -188,6 +196,7 @@ ______</rdf:Description>^^J%
     \else%
       \newcommand{\pdfpcnote}[1]{%
         {%
+          \Hy@unicodetrue
           \expandafter\def\expandafter\pdfstringdefPreHook
           \expandafter{%
             \pdfstringdefPreHook
